@@ -16,8 +16,8 @@ Read the data in Mr.Trash Wheel sheet without rows and columns with notes, and b
 ```{r}
 mrtrashwheel = 
   read_excel(
-    "./Datasets/HealthyHarborWaterWheelTotals2018-7-28.xlsx", 
-    range = "A2:N338") %>%
+    "./Datasets/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
+    range = "A2:N406") %>%
   janitor::clean_names() %>%
   drop_na("dumpster") %>%
   mutate(
