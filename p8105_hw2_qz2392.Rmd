@@ -30,7 +30,7 @@ Read and clean the data in 2017 and 2018 Precipitation sheet.
 #Read and clean the 2017 Precipitation sheet
 pre_2017 =
   read_excel(
-    "./Datasets/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = "2017 Precipitation", 
+    "./Datasets/Trash-Wheel-Collection-Totals-8-6-19.xlsx", sheet = "2017 Precipitation", 
     range = "A2:B14") %>%
   janitor::clean_names() %>%
   drop_na("total") %>%
@@ -41,7 +41,7 @@ pre_2017 =
 #Read and clean the 2018 Precipitation sheet
 pre_2018 =
   read_excel(
-    "./Datasets/HealthyHarborWaterWheelTotals2018-7-28.xlsx", 
+    "./Datasets/Trash-Wheel-Collection-Totals-8-6-19.xlsx", 
     sheet = "2018 Precipitation", 
     range = "A2:B14") %>%
   janitor::clean_names() %>%
@@ -128,7 +128,7 @@ fivethirtyeight =
             by = c("year", "month"))
 ```
 The pol_month dataset contains the information about the number of govenors, senators and representitves from republican and democratic parties, and specifies the party the president belonged to on the associated date. The snp dataset contains the closing values of the S&P stock index on the associated date. The unemploymeny dataset contains the percentage of unemployment on the associated date.
-The dimension of the resulting dataset is ```r nrow(fivethirtyeight)``` rows and ```r ncol(fivethirtyeight)``` columns. The range of years is ```r max(pull(fivethirtyeight, year)) - min(pull(fivethirtyeight, year))``` years. The names of key variables are 'president', 'rep_gop', 'rep_dem' and 'unemployment_rate', because the president and the ratio of republican govenors to democratic govenors can reflect to the power of a specific party, and the unemployment rate can reflect the economy status.
+The dimension of the resulting dataset is ```r nrow(fivethirtyeight)``` rows and ```r ncol(fivethirtyeight)``` columns. The range of years is from ```r min(pull(fivethirtyeight, year))``` to ```r max(pull(fivethirtyeight, year))``` years. The names of key variables are 'president', 'rep_gop', 'rep_dem' and 'unemployment_rate', because the president and the ratio of republican govenors to democratic govenors can reflect to the power of a specific party, and the unemployment rate can reflect the economy status.
 
 # Problem 3
 Read and clean the popular baby names dataset.
@@ -136,6 +136,20 @@ Read and clean the popular baby names dataset.
 popular_baby_names =
   read_csv("./Datasets/Popular_Baby_Names.csv") %>%
   janitor::clean_names() %>%
+  mutate(
+    gender = str_to_upper(gender),
+    ethnicity = str_to_upper(ethnicity),
+    ethnicity = case_when(
+      ethnicity == "ASIAN AND PACIFIC ISLANDER" ~ "ASIAN AND PACIFIC ISLANDER",
+      ethnicity == "BLACK NON HISPANIC" ~ "BLACK NON HISPANIC",
+      ethnicity == "WHITE NON HISPANIC" ~ "WHITE NON HISPANIC",
+      ethnicity == "ASIAN AND PACI" ~ "ASIAN AND PACIFIC ISLANDER",
+      ethnicity == "BLACK NON HISP" ~ "BLACK NON HISPANIC",
+      ethnicity == "WHITE NON HISP" ~ "WHITE NON HISPANIC",
+      ethnicity == "HISPANIC" ~ "HISPANIC"
+    ),
+    childs_first_name = str_to_title(childs_first_name)
+  ) %>%
   distinct()
 ```
 Investigate the popularity of the name 'Olivia' over time among female babies.
@@ -157,17 +171,6 @@ male_rank =
   popular_baby_names %>%
   filter(gender == "MALE" & rank == 1) %>%
   select(-c(gender, rank, count)) %>%
-  mutate(
-    ethnicity = case_when(
-      ethnicity == "ASIAN AND PACIFIC ISLANDER" ~ "ASIAN AND PACIFIC ISLANDER",
-      ethnicity == "BLACK NON HISPANIC" ~ "BLACK NON HISPANIC",
-      ethnicity == "WHITE NON HISPANIC" ~ "WHITE NON HISPANIC",
-      ethnicity == "ASIAN AND PACI" ~ "ASIAN AND PACIFIC ISLANDER",
-      ethnicity == "BLACK NON HISP" ~ "BLACK NON HISPANIC",
-      ethnicity == "WHITE NON HISP" ~ "WHITE NON HISPANIC",
-      ethnicity == "HISPANIC" ~ "HISPANIC",
-    )
-  ) %>%
   pivot_wider(
     names_from = "year_of_birth",
     values_from = "childs_first_name"
