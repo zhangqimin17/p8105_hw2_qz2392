@@ -59,7 +59,7 @@ pre_2017_and_2018 =
   )
 
 ```
-The number of observations in Mr.Trash Wheel dataset is ```r nrow(mrtrashwheel)``` and the number of observations in precipitation data for 2017 and 2018 is ```r nrow(pre_2017_and_2018)```. The key variables in Mr.Trash Wheel dataset might include 'weight_tons' and 'homes_powered', and the key variables in precipitation data for 2017 and 2018 might include 'month' and 'total'.
+The number of observations in Mr.Trash Wheel dataset is `r nrow(mrtrashwheel)` and the number of observations in precipitation data for 2017 and 2018 is `r nrow(pre_2017_and_2018)`. The key variables in Mr.Trash Wheel dataset might include 'weight_tons' and 'homes_powered', and the key variables in precipitation data for 2017 and 2018 might include 'month' and 'total'.
 The total precipitation in 2018 is `r sum(select(pre_2018, total))`, and the median number of sports balls in a dumpster in 2017 is `r median(pull(filter(mrtrashwheel, year == 2017), sports_balls))`.
 
 # Problem 2
@@ -128,7 +128,7 @@ fivethirtyeight =
             by = c("year", "month"))
 ```
 The pol_month dataset contains the information about the number of govenors, senators and representitves from republican and democratic parties, and specifies the party the president belonged to on the associated date. The snp dataset contains the closing values of the S&P stock index on the associated date. The unemploymeny dataset contains the percentage of unemployment on the associated date.
-The dimension of the resulting dataset is ```r nrow(fivethirtyeight)``` rows and ```r ncol(fivethirtyeight)``` columns. The range of years is from ```r min(pull(fivethirtyeight, year))``` to ```r max(pull(fivethirtyeight, year))``` years. The names of key variables are 'president', 'rep_gop', 'rep_dem' and 'unemployment_rate', because the president and the ratio of republican govenors to democratic govenors can reflect to the power of a specific party, and the unemployment rate can reflect the economy status.
+The dimension of the resulting dataset is `r nrow(fivethirtyeight)` rows and `r ncol(fivethirtyeight)` columns. The range of years is from `r min(pull(fivethirtyeight, year))` to `r max(pull(fivethirtyeight, year))` years. The names of key variables are 'president', 'rep_gop', 'rep_dem' and 'unemployment_rate', because the president and the ratio of republican govenors to democratic govenors can reflect to the power of a specific party, and the unemployment rate can reflect the economy status.
 
 # Problem 3
 Read and clean the popular baby names dataset.
